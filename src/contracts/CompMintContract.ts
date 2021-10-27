@@ -20,7 +20,13 @@ class CompMintContract extends PolygonContract<CompMint> {
 
             const price = utils.parseEther("10");
 
-            if ((await PolygonMixContract.allowance(owner, this.address)).lt(price)) {
+            if ((await PolygonMixContract.balanceOf(owner)).lt(price)) {
+                if (confirm("Polygon Mix가 부족합니다. Mix를 Polygon Mix로 스왑하시겠습니까?")) {
+                    open("https://mix.chainhorizon.org/");
+                }
+            }
+
+            else if ((await PolygonMixContract.allowance(owner, this.address)).lt(price)) {
 
                 const deadline = Math.ceil(Date.now() / 1000) + 1000000;
                 const signed = await PolygonWallet.signERC20Permit(
