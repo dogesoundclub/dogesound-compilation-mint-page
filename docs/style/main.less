@@ -1,91 +1,96 @@
 @import "base.less";
-@import "progress.less";
-
-@font-face {
-    font-family: "Downcome";
-    src        : url("../fonts/Downcome.woff") format("woff"),
-        url("../fonts/Downcome.svg#Downcome") format("svg"),
-        url("../fonts/Downcome.eot"),
-        url("../fonts/Downcome.eot?#iefix") format("embedded-opentype");
-    font-weight: normal;
-    font-style : normal;
-}
 
 body {
-    font-family     : Downcome;
     background-color: #000;
     color           : #fff;
-    font-size       : 20px;
-    padding-bottom  : 100px;
 }
 
-.price-info {
-    position : fixed;
-    left     : 20px;
-    top      : 20px;
-    font-size: 24px;
+.layout {
+    position        : relative;
+    background-image: url(/images/background@2x.png);
+    background-size : contain;
+    width           : 1280px;
+    height          : 723px;
+    margin          : auto;
 }
 
-main {
-    width     : 600px;
-    margin    : auto;
-    text-align: center;
+.items {
+    position: absolute;
+    left    : 0;
+    top     : 0;
 
-    p {
-        margin-bottom: 30px;
-    }
-
-    label {
-        margin-bottom: 20px;
+    >.item {
+        font-family  : 'Arcade Normal';
         display      : flex;
-        width        : 100%;
+        padding      : 15px 20px;
+        border-bottom: 1px solid #333;
+        width        : 568px;
 
-        >span {
-            width    : 130px;
-            font-size: 24px;
+        >img {
+            width       : 150px;
+            margin-right: 12px;
         }
 
-        >input {
-            background-color: #939393;
-            flex-grow       : 1;
-            font-size       : 22px;
+        >.info {
+            flex-grow: 1;
+
+            >h2 {
+                font-size  : 20px;
+                line-height: 2em;
+                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            >h3 {
+                line-height: 2em;
+                text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
+            }
+
+            >.progress {
+                position     : relative;
+                margin-top   : 20px;
+                background   : rgba(255, 255, 255, 0.5);
+                border-radius: 20px;
+                color        : #8E8E8E;
+                text-align   : center;
+                padding      : 8px 0;
+
+                >.bar {
+                    position     : absolute;
+                    left         : 0;
+                    top          : 0;
+                    height       : 100%;
+                    border-radius: 20px;
+                }
+            }
         }
     }
+}
 
-    .mint-button {
-        font-size       : 24px;
-        background-color: #450000;
-        width           : 200px;
-        padding         : 10px 0;
-        margin          : 20px auto;
-        display         : block;
+.disk {
+    position: absolute;
+    left    : 634px;
+    top     : 38px;
+    width   : 460px;
+
+    >img {
+        width: 100%;
     }
+}
 
-    .progress {
+.mint-form {
+    position   : absolute;
+    left       : 840px;
+    top        : 540px;
+    color      : #000;
+    font-family: 'True Crimes';
+    font-size  : 30px;
+
+    >.mint-button {
         margin-top: 30px;
-        font-size : 24px;
-        text-align: left;
-
-        >.meter {
-            margin: 16px 0;
-        }
-
-        >span {
-            display   : block;
-            font-size : 16px;
-            text-align: right;
-        }
+        padding   : 5px 0;
+        display   : block;
+        background: rgba(255, 247, 150, 0.66);
+        color     : #FFC400;
+        text-align: center;
     }
-}
-
-.opensea-button {
-    position: fixed;
-    left    : 20px;
-    bottom  : 5px;
-}
-
-.website-button {
-    position: fixed;
-    right   : 20px;
-    bottom  : 10px;
 }

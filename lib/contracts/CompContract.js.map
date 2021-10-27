@@ -1,0 +1,1 @@
+{"version":3,"file":"CompContract.js","sourceRoot":"","sources":["../../src/contracts/CompContract.ts"],"names":[],"mappings":";;;;;AAAA,8IAAyH;AAEzH,yFAAiE;AAEjE,MAAM,YAAa,SAAQ,yBAAyB;IAEhD;QACI,KAAK,CAAC,4CAA4C,EAAE,uBAAgB,CAAC,GAAG,EAAE,EAAE,CAAC,CAAC;IAClF,CAAC;CACJ;AAED,kBAAe,IAAI,YAAY,EAAE,CAAC"}
