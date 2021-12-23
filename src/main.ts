@@ -2,6 +2,7 @@ import { BodyNode, DomNode, el } from "@hanul/skynode";
 import CommonUtil from "./CommonUtil";
 import Item from "./component/Item";
 import CompMintContract from "./contracts/CompMintContract";
+import CompV2MintContract from "./contracts/CompV2MintContract";
 import PolygonWallet from "./polygon/PolygonWallet";
 
 (async () => {
@@ -14,7 +15,7 @@ import PolygonWallet from "./polygon/PolygonWallet";
 
     BodyNode.append(el(".layout",
         el(".items",
-            new Item(0, "JADE KEY ver.", "#A93DA2", () => {
+            /*new Item(0, "JADE KEY ver.", "#A93DA2", () => {
                 disk.empty().append(el("img", { src: "/images/LP1.png" }));
                 selectedId = 0;
                 bar.style({
@@ -30,6 +31,15 @@ import PolygonWallet from "./polygon/PolygonWallet";
             new Item(2, "Graynym ver.", "#FCFC0B", () => {
                 disk.empty().append(el("img", { src: "/images/LP3.png" }));
                 selectedId = 2;
+            }),*/
+            new Item(3, "JADE KEY ver.", "#A93DA2", () => {
+                disk.empty().append(el("img", { src: "/images/LP4.png" }));
+                selectedId = 3;
+                bar.style({
+                    left: 996,
+                    top: 35,
+                    transform: "rotate(30deg)",
+                });
             }),
         ),
         disk = el(".disk"),
@@ -43,7 +53,7 @@ import PolygonWallet from "./polygon/PolygonWallet";
             el("a.mint-button", "Mint", {
                 click: () => {
                     if (selectedId !== undefined) {
-                        CompMintContract.mint(selectedId);
+                        CompV2MintContract.mint(selectedId);
                     }
                 },
             }),
