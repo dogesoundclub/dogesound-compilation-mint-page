@@ -32,7 +32,7 @@ import PolygonWallet from "./polygon/PolygonWallet";
                 disk.empty().append(el("img", { src: "/images/LP3.png" }));
                 selectedId = 2;
             }),*/
-            new Item(3, "JADE KEY ver.", "#A93DA2", () => {
+            new Item(3, "", "#A93DA2", () => {
                 disk.empty().append(el("img", { src: "/images/LP4.png" }));
                 selectedId = 3;
                 bar.style({
