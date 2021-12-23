@@ -3,6 +3,7 @@ import CommonUtil from "./CommonUtil";
 import Item from "./component/Item";
 import CompMintContract from "./contracts/CompMintContract";
 import CompV2MintContract from "./contracts/CompV2MintContract";
+import CompV2MintStarterContract from "./contracts/CompV2MintStarterContract";
 import PolygonWallet from "./polygon/PolygonWallet";
 
 (async () => {
@@ -51,9 +52,13 @@ import PolygonWallet from "./polygon/PolygonWallet";
             el("h4", "Wallet Address"),
             walletAddress = el(".wallet-address"),
             el("a.mint-button", "Mint", {
-                click: () => {
+                click: async () => {
                     if (selectedId !== undefined) {
-                        CompV2MintContract.mint(selectedId);
+                        if (await CompV2MintStarterContract.started() !== true) {
+                            alert("아직 민팅이 시작되지 않았습니다.");
+                        } else {
+                            CompV2MintContract.mint(selectedId);
+                        }
                     }
                 },
             }),
