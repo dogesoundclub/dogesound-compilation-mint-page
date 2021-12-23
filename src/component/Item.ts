@@ -25,7 +25,7 @@ export default class Item extends DomNode {
         this.progress.append(el(".bar", {
             style: {
                 backgroundColor: this.color,
-                width: `${100 - balance.toNumber()}%`,
+                width: `${(360 - balance.toNumber()) / 360 * 100}%`,
             },
         }));
     }
