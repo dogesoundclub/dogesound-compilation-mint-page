@@ -1,16 +1,16 @@
 import { BigNumberish } from "@ethersproject/bignumber";
 import { utils } from "ethers";
+import PolygonNetworkProvider from "../polygon/PolygonNetworkProvider";
 import PolygonWallet from "../polygon/PolygonWallet";
-import CompMintArtifact from "./abi/compmint/artifacts/contracts/CompMint.sol/CompMint.json";
-import { CompMint } from "./abi/compmint/typechain";
+import CompV2MintArtifact from "./abi/compmint/artifacts/contracts/CompV2Mint.sol/CompV2Mint.json";
+import { CompV2Mint } from "./abi/compmint/typechain";
 import CompContract from "./CompContract";
 import PolygonContract from "./PolygonContract";
-import PolygonMixContract from "./PolygonMixContract";
 
-class CompV2MintContract extends PolygonContract<CompMint> {
+class CompV2MintContract extends PolygonContract<CompV2Mint> {
 
     constructor() {
-        super("0x7fA7e3c45aa6AAB81FA4693f0c4eb5c80D971EDf", CompMintArtifact.abi, []);
+        super("0x49749fb6D2293ef9c0C638cD1C5eF54A70990b6A", CompV2MintArtifact.abi, []);
     }
 
     public async mint(id: BigNumberish) {
@@ -23,32 +23,10 @@ class CompV2MintContract extends PolygonContract<CompMint> {
 
             if ((await CompContract.balanceOf(this.address, id)).eq(0)) {
                 alert("민팅이 종료되었습니다.");
-            }
-
-            else if ((await PolygonMixContract.balanceOf(owner)).lt(price)) {
-                if (confirm("Polygon Mix가 부족합니다. Mix를 Polygon Mix로 스왑하시겠습니까?")) {
-                    open("https://mix.chainhorizon.org/");
-                }
-            }
-
-            else if ((await PolygonMixContract.allowance(owner, this.address)).lt(price)) {
-
-                const deadline = Math.ceil(Date.now() / 1000) + 1000000;
-                const signed = await PolygonWallet.signERC20Permit(
-
-                    await PolygonMixContract.getName(),
-                    "1",
-                    PolygonMixContract.address,
-
-                    this.address,
-                    price,
-                    await PolygonMixContract.getNonce(owner),
-                    deadline,
-                );
-
-                await contract.mintWithPermit(id, deadline, signed.v, signed.r, signed.s);
+            } else if ((await PolygonNetworkProvider.getBalance(owner)).lt(price)) {
+                alert("Polygon이 부족합니다");
             } else {
-                await contract.mint(id);
+                await contract.mint(id, { value: price });
             }
         }
     }

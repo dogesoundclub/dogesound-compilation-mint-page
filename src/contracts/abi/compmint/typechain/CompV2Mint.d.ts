@@ -14,31 +14,26 @@ import {
   Contract,
   ContractTransaction,
   Overrides,
+  PayableOverrides,
   CallOverrides,
 } from "@ethersproject/contracts";
 import { BytesLike } from "@ethersproject/bytes";
 import { Listener, Provider } from "@ethersproject/providers";
 import { FunctionFragment, EventFragment, Result } from "@ethersproject/abi";
 
-interface CompMintInterface extends ethers.utils.Interface {
+interface CompV2MintInterface extends ethers.utils.Interface {
   functions: {
     "mint(uint256)": FunctionFragment;
-    "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)": FunctionFragment;
     "nft()": FunctionFragment;
     "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes)": FunctionFragment;
     "onERC1155Received(address,address,uint256,uint256,bytes)": FunctionFragment;
     "owner()": FunctionFragment;
-    "pmix()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
     "supportsInterface(bytes4)": FunctionFragment;
     "transferOwnership(address)": FunctionFragment;
   };
 
   encodeFunctionData(functionFragment: "mint", values: [BigNumberish]): string;
-  encodeFunctionData(
-    functionFragment: "mintWithPermit",
-    values: [BigNumberish, BigNumberish, BigNumberish, BytesLike, BytesLike]
-  ): string;
   encodeFunctionData(functionFragment: "nft", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "onERC1155BatchReceived",
@@ -49,7 +44,6 @@ interface CompMintInterface extends ethers.utils.Interface {
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(functionFragment: "pmix", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
@@ -64,10 +58,6 @@ interface CompMintInterface extends ethers.utils.Interface {
   ): string;
 
   decodeFunctionResult(functionFragment: "mint", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "mintWithPermit",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "nft", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "onERC1155BatchReceived",
@@ -78,7 +68,6 @@ interface CompMintInterface extends ethers.utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(functionFragment: "pmix", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
     data: BytesLike
@@ -99,7 +88,7 @@ interface CompMintInterface extends ethers.utils.Interface {
   getEvent(nameOrSignatureOrTopic: "OwnershipTransferred"): EventFragment;
 }
 
-export class CompMint extends Contract {
+export class CompV2Mint extends Contract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
@@ -110,32 +99,17 @@ export class CompMint extends Contract {
   removeAllListeners(eventName: EventFilter | string): this;
   removeListener(eventName: any, listener: Listener): this;
 
-  interface: CompMintInterface;
+  interface: CompV2MintInterface;
 
   functions: {
-    mint(id: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+    mint(
+      id: BigNumberish,
+      overrides?: PayableOverrides
+    ): Promise<ContractTransaction>;
 
     "mint(uint256)"(
       id: BigNumberish,
-      overrides?: Overrides
-    ): Promise<ContractTransaction>;
-
-    mintWithPermit(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
-    ): Promise<ContractTransaction>;
-
-    "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)"(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<ContractTransaction>;
 
     nft(overrides?: CallOverrides): Promise<[string]>;
@@ -182,10 +156,6 @@ export class CompMint extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<[string]>;
 
-    pmix(overrides?: CallOverrides): Promise<[string]>;
-
-    "pmix()"(overrides?: CallOverrides): Promise<[string]>;
-
     renounceOwnership(overrides?: Overrides): Promise<ContractTransaction>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
@@ -211,29 +181,14 @@ export class CompMint extends Contract {
     ): Promise<ContractTransaction>;
   };
 
-  mint(id: BigNumberish, overrides?: Overrides): Promise<ContractTransaction>;
+  mint(
+    id: BigNumberish,
+    overrides?: PayableOverrides
+  ): Promise<ContractTransaction>;
 
   "mint(uint256)"(
     id: BigNumberish,
-    overrides?: Overrides
-  ): Promise<ContractTransaction>;
-
-  mintWithPermit(
-    id: BigNumberish,
-    deadline: BigNumberish,
-    v: BigNumberish,
-    r: BytesLike,
-    s: BytesLike,
-    overrides?: Overrides
-  ): Promise<ContractTransaction>;
-
-  "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)"(
-    id: BigNumberish,
-    deadline: BigNumberish,
-    v: BigNumberish,
-    r: BytesLike,
-    s: BytesLike,
-    overrides?: Overrides
+    overrides?: PayableOverrides
   ): Promise<ContractTransaction>;
 
   nft(overrides?: CallOverrides): Promise<string>;
@@ -280,10 +235,6 @@ export class CompMint extends Contract {
 
   "owner()"(overrides?: CallOverrides): Promise<string>;
 
-  pmix(overrides?: CallOverrides): Promise<string>;
-
-  "pmix()"(overrides?: CallOverrides): Promise<string>;
-
   renounceOwnership(overrides?: Overrides): Promise<ContractTransaction>;
 
   "renounceOwnership()"(overrides?: Overrides): Promise<ContractTransaction>;
@@ -312,24 +263,6 @@ export class CompMint extends Contract {
     mint(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     "mint(uint256)"(id: BigNumberish, overrides?: CallOverrides): Promise<void>;
-
-    mintWithPermit(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
-
-    "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)"(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<void>;
 
     nft(overrides?: CallOverrides): Promise<string>;
 
@@ -375,10 +308,6 @@ export class CompMint extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<string>;
 
-    pmix(overrides?: CallOverrides): Promise<string>;
-
-    "pmix()"(overrides?: CallOverrides): Promise<string>;
-
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
     "renounceOwnership()"(overrides?: CallOverrides): Promise<void>;
@@ -412,29 +341,11 @@ export class CompMint extends Contract {
   };
 
   estimateGas: {
-    mint(id: BigNumberish, overrides?: Overrides): Promise<BigNumber>;
+    mint(id: BigNumberish, overrides?: PayableOverrides): Promise<BigNumber>;
 
     "mint(uint256)"(
       id: BigNumberish,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    mintWithPermit(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
-    ): Promise<BigNumber>;
-
-    "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)"(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<BigNumber>;
 
     nft(overrides?: CallOverrides): Promise<BigNumber>;
@@ -481,10 +392,6 @@ export class CompMint extends Contract {
 
     "owner()"(overrides?: CallOverrides): Promise<BigNumber>;
 
-    pmix(overrides?: CallOverrides): Promise<BigNumber>;
-
-    "pmix()"(overrides?: CallOverrides): Promise<BigNumber>;
-
     renounceOwnership(overrides?: Overrides): Promise<BigNumber>;
 
     "renounceOwnership()"(overrides?: Overrides): Promise<BigNumber>;
@@ -513,30 +420,12 @@ export class CompMint extends Contract {
   populateTransaction: {
     mint(
       id: BigNumberish,
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
 
     "mint(uint256)"(
       id: BigNumberish,
-      overrides?: Overrides
-    ): Promise<PopulatedTransaction>;
-
-    mintWithPermit(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
-    ): Promise<PopulatedTransaction>;
-
-    "mintWithPermit(uint256,uint256,uint8,bytes32,bytes32)"(
-      id: BigNumberish,
-      deadline: BigNumberish,
-      v: BigNumberish,
-      r: BytesLike,
-      s: BytesLike,
-      overrides?: Overrides
+      overrides?: PayableOverrides
     ): Promise<PopulatedTransaction>;
 
     nft(overrides?: CallOverrides): Promise<PopulatedTransaction>;
@@ -582,10 +471,6 @@ export class CompMint extends Contract {
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "owner()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    pmix(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    "pmix()"(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     renounceOwnership(overrides?: Overrides): Promise<PopulatedTransaction>;
 
